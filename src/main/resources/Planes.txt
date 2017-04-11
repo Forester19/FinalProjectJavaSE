@@ -1,3 +1,5 @@
-Plane  first' 5000 150 1500 100
-Plane  second' 4000 150 1500 120
-Plane  third' 7777 150 1500 90
+Id Name  TC  TCC   MRF  FC
+1  qwe  123  123  123  123
+2  An_4  4324  4324  543  345
+3  An_148  12344  43233  123  321
+
