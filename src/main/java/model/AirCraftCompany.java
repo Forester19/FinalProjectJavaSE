@@ -9,43 +9,29 @@ import java.util.List;
  *
  * Entity - company.
  */
-public class AirCraftCompany {
-    private int id_conpany;
-    private String name_conpany;
-    private ArrayList<AirCraftType> companiesPlanes;
+public class AirCraftCompany extends BaseEntity {
+    private ArrayList<Integer> listPlanes;
     private int totalCapacityOfCompany;
     private int totalCarryCapacityOfCompany;
 
-    public AirCraftCompany(int id_conpany, String name_conpany) {
-        this.id_conpany = id_conpany;
-        this.name_conpany = name_conpany;
+    public AirCraftCompany(int id, String name, ArrayList<Integer> companiesPlanes) {
+        super(id, name);
+        this.listPlanes = companiesPlanes;
 
     }
 
-    public int getId_conpany() {
 
-        return id_conpany;
+    public ArrayList<Integer> getCompaniesPlanes() {
+        return listPlanes;
+    }
+    public String writePlanes(){
+       String res ="";
+        for (Integer i: listPlanes){
+             res += i+",";
+        }
+        return res;
     }
 
-    public void setId_conpany(int id_conpany) {
-        this.id_conpany = id_conpany;
-    }
-
-    public String getName_conpany() {
-        return name_conpany;
-    }
-
-    public void setName_conpany(String name_conpany) {
-        this.name_conpany = name_conpany;
-    }
-
-    public ArrayList<AirCraftType> getCompaniesPlanes() {
-        return companiesPlanes;
-    }
-
-    public void setCompaniesPlanes(List<AirCraftType> companiesPlanes) {
-        this.companiesPlanes = (ArrayList<AirCraftType>) companiesPlanes;
-    }
 
     public int getTotalCapacityOfCompany() {
         return totalCapacityOfCompany;
@@ -62,11 +48,10 @@ public class AirCraftCompany {
     public void setTotalCarryCapacityOfCompany(int totalCarryCapacityOfCompany) {
         this.totalCarryCapacityOfCompany = totalCarryCapacityOfCompany;
     }
-
     @Override
     public String toString() {
-        return id_conpany + " " + name_conpany +
-                " " + companiesPlanes +
+        return id + " " + name +
+                " " + listPlanes +
                 " " + totalCapacityOfCompany +
                 " " + totalCarryCapacityOfCompany;
     }

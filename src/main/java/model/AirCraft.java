@@ -1,42 +1,22 @@
 package model;
 
 /**
- * @author Владислав
- * @version 1.0
- *
- * Entity - plane
+ * Created by Владислав on 14.04.2017.
  */
-public class AirCraftType implements Comparable<AirCraftType> {
-    private int id;
-    private String name;
+public class AirCraft extends BaseEntity implements Comparable<AirCraft>{
     private int totalCapacity;
     private int totalCarryCapacity;
     private int maxRageFlying;
     private int fuelConsumptionPer100km;
+    private Type type;
 
-    public AirCraftType(int id, String name, int totalCapacity, int totalCarryCapacity, int maxRageFlying, int fuelConsumptionPer100km) {
-        this.id = id;
-        this.name = name;
+    public AirCraft(int id, String name,Type type, int totalCapacity, int totalCarryCapacity, int maxRageFlying, int fuelConsumptionPer100km ) {
+        super(id, name);
         this.totalCapacity = totalCapacity;
         this.totalCarryCapacity = totalCarryCapacity;
         this.maxRageFlying = maxRageFlying;
         this.fuelConsumptionPer100km = fuelConsumptionPer100km;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.type = type;
     }
 
     public int getTotalCapacity() {
@@ -71,19 +51,19 @@ public class AirCraftType implements Comparable<AirCraftType> {
         this.fuelConsumptionPer100km = fuelConsumptionPer100km;
     }
 
-    @Override
-    public String toString() {
-        return id +
-                "  " + name +
-                "  " + totalCapacity +
-                "  " + totalCarryCapacity +
-                "  " + maxRageFlying +
-                "  " + fuelConsumptionPer100km;
+    public Type getType() {
+        return type;
     }
 
-
     @Override
-    public int compareTo(AirCraftType o) {
+    public int compareTo(AirCraft o) {
         return this.getMaxRageFlying() > o.getMaxRageFlying() ? 1 : -1;
     }
+
+    @Override
+    public String toString() {
+        return getId() + " "+ getName() + " " + getTotalCapacity()+" "+getTotalCarryCapacity()+ " " + getMaxRageFlying() + " " + getFuelConsumptionPer100km()
+                + " " + getType().write();
+    }
 }
+

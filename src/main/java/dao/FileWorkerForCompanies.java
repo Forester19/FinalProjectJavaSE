@@ -1,59 +1,81 @@
 package dao;
 
-import controller.ConsoleWorker;
+import model.AirCraft;
 import model.AirCraftCompany;
 
 import java.io.*;
+import java.util.ArrayList;
 
 /**
- * Created by Владислав on 10.04.2017.
-@author Владислав
- @version 1.0
-
- Class handler file with information about company :
-        ist id
-        its Name
-        its summary total capacity
-        int summary total carry capacity
-
+ * Created by Владислав on 17.04.2017.
  */
+public class FileWorkerForCompanies implements Filable<AirCraftCompany> {
+    private File file = new File("src/main/resources/Companies.txt");
 
-public class FileWorkerForCompanies {
-    ConsoleWorker consoleWorker;
-    File file = new File("src/main/resources/CompanyInformation.txt");
-    public FileWorkerForCompanies(ConsoleWorker consoleWorker) {
-    this.consoleWorker = consoleWorker;
-
+    public FileWorkerForCompanies() throws IOException {
     }
 
-    /**
-     * Method writes information about company to file
-     */
-   public void writeCompanyTOFIle(AirCraftCompany airCraftCompany){
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file,true))) {
-              writer.write(airCraftCompany.getId_conpany() + " " +airCraftCompany.getName_conpany()+" "+
-              consoleWorker.getService().calculateTotalCapacity()+" " + consoleWorker.getService().calculateTotalCarryCapacity());
+    @Override
+    public void add(AirCraftCompany airCraftCompany) {
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file,true))) {
+            bufferedWriter.write(airCraftCompany.getId() + " " + airCraftCompany.getName()+ " "+ airCraftCompany.writePlanes()+"\n");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-    /**
-     * Method reads all companies from file
-     * @return String of information
-     */
-    public  String readInforAboutCompany(){
-        String[] atributs = new String[0];
+    public void showAllCompanies(){
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            String company;
-               company = bufferedReader.readLine();
-               atributs = company.split(" " );
+            ArrayList<String> arrayList = new ArrayList<>();
+            String lines;
+            while ((lines = bufferedReader.readLine()) != null){
+                arrayList.add(lines);
+            }
+            for (String s: arrayList){
+                System.out.println(s);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return Integer.valueOf(atributs[0])+" " + atributs[1]+" "+ Integer.valueOf(atributs[2])+" "+Integer.valueOf(atributs[3]);
+    }
+
+    @Override
+    public void remove(int id) {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+    public AirCraftCompany getByID(int id){
+ AirCraftCompany airCraftCompany = null;
+ ArrayList<AirCraftCompany> listComp = null;
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+           ArrayList<Integer> list= new ArrayList<>();
+            String s;
+           String[] ss;
+           while ((s = bufferedReader.readLine()) != null){
+               ss = s.split(" ");
+               String[] p = ss[2].split(", ");
+               for (String v : p){
+                   list.add(Integer.valueOf(v));
+               }
+ airCraftCompany = new AirCraftCompany(Integer.valueOf(ss[0]),ss[1],list);
+           listComp.add(airCraftCompany);
+           }
+           for (AirCraftCompany a: listComp){
+               if (a.getId() == id){
+                   return a;
+               }
+           }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

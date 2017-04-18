@@ -1,7 +1,6 @@
-import controller.ConsoleWorker;
-import dao.FileWorkerForCompanies;
-import model.AirCraftCompany;
+import controller.ConsoleWorkerMain;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -9,11 +8,7 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-
-
-        ConsoleWorker consoleWorker = new ConsoleWorker();
-
-            consoleWorker.workWithConsole();
+        ConsoleWorkerMain consoleWorkerMain = new ConsoleWorkerMain();
 
 
     }

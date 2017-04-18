@@ -1,63 +1,47 @@
 package dao;
 
-import controller.ConsoleWorker;
-import model.AirCraftType;
+import model.AirCraft;
+import model.Type;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * @author Владислав
- * @version 1.0
- *
- * Class worker for planes with Plane.txt
+ * Created by Владислав on 17.04.2017.
  */
-public class FileWorkerForPlanes {
-    private File file;
-    private ConsoleWorker consoleWorker;
+public class FileWorkerForPlanes implements Filable<AirCraft> {
+    String src = "src/main/resources/Planes.txt";
+    File file = new File(src);
 
-
-    public FileWorkerForPlanes(File file, ConsoleWorker consoleWorker) {
-        this.file = file;
-        this.consoleWorker = consoleWorker;
-
-
-    }
-
-    /***
-     * Method writes plane to file.
-     * @param airCraftType
-     */
-    public void writeAirCraftToFile(AirCraftType airCraftType) {
-
+    @Override
+    public void add(AirCraft airCraft) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
-            bufferedWriter.write(airCraftType.toString() + "\n");
-
+            bufferedWriter.write(airCraft.getId() + " " +
+                    airCraft.getName() + " " + airCraft.getTotalCapacity() + " " + airCraft.getTotalCarryCapacity() + " " +
+                    airCraft.getMaxRageFlying() + " " + airCraft.getFuelConsumptionPer100km() + " " + airCraft.getType().writeToPlanesFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Method reads all planes from file '.txt'
-     * @return List of planes.
-     */
-    public List<AirCraftType> readAllPlanes() {
-        List<AirCraftType> airCraftTypeList = new ArrayList<>();
-        String[] plane;
-        AirCraftType airCraftType;
-        boolean b = true;
-        String planes;
+    @Override
+    public void remove(int id) {
+        ArrayList<AirCraft> arrayList = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            while ((planes = bufferedReader.readLine()) != null) {
-                if (b) {
-                    b = false;
-                    continue;
-                }
-                plane = planes.split("  ");
-                airCraftType = new AirCraftType(Integer.valueOf(plane[0]), plane[1], Integer.valueOf(plane[2]), Integer.valueOf(plane[3]), Integer.valueOf(plane[4]), Integer.valueOf(plane[5]));
-                airCraftTypeList.add(airCraftType);
+
+            String str;
+            String[] arr;
+            while ((str = bufferedReader.readLine()) != null) {
+
+                arr = str.split(" ");
+                String[] s = arr[6].split(",");
+                Type type = new Type(Integer.valueOf(s[0]), s[1]);
+                AirCraft airCraft = new AirCraft(Integer.valueOf(arr[0]), arr[1], type, Integer.valueOf(arr[3]), Integer.valueOf(arr[4]), Integer.valueOf(arr[5]), Integer.valueOf(arr[6]));
+                arrayList.add(airCraft);
+            }
+            if (file.exists()) {
+                file.delete();
+                file.createNewFile();
             }
 
         } catch (FileNotFoundException e) {
@@ -65,7 +49,67 @@ public class FileWorkerForPlanes {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
+            for (AirCraft types : arrayList) {
+                if (types.getId() == id) continue;
+                bufferedWriter.write(types.getId() + " " +
+                        types.getName() + " " + types.getTotalCapacity() + " " + types.getTotalCarryCapacity() + " " + types.getMaxRageFlying() +
+                        " " + types.getFuelConsumptionPer100km() + " " + types.getType().writeToPlanesFile());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        return airCraftTypeList;
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    public ArrayList<String> showAllPlanes() {
+        String plane;
+        ArrayList<String> arrayList = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            while ((plane = bufferedReader.readLine()) != null) {
+                arrayList.add(plane);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public AirCraft getByOD(int id) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            ArrayList<AirCraft> airCrafts = new ArrayList<>();
+            String plane;
+            String[] planes;
+            String[] types;
+            while ((plane = bufferedReader.readLine()) != null) {
+                planes = plane.split(" ");
+                types = planes[6].split(",");
+                Type type = new Type(Integer.valueOf(types[0]),types[1]);
+                AirCraft airCraft = new AirCraft(Integer.valueOf(planes[0]),
+                        planes[1],type,Integer.valueOf(planes[2]),Integer.valueOf(planes[3]),Integer.valueOf(planes[4]),Integer.valueOf(planes[5]));
+                airCrafts.add(airCraft);
+
+            }
+            for (AirCraft airCraft:airCrafts){
+                if (airCraft.getId() == id) return airCraft;
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }
