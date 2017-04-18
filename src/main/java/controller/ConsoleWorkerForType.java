@@ -18,6 +18,9 @@ public class ConsoleWorkerForType {
     ConsoleHelperForType consoleHelperForType = new ConsoleHelperForType();
     FileWorkerOfType fileWorkerOfType = new FileWorkerOfType();
 
+    /**
+     * Method that looks on your choice and causes other methods.
+     */
     public void doingEveryThingWithTypePath(){
         System.out.println("Select:\n 1 - Add new type\n 2 - remove by id\n 3 - show all types ");
         selrctParamType = Integer.valueOf(scanner.nextInt());

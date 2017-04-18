@@ -7,7 +7,9 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
- * Created by Владислав on 17.04.2017.
+ * File worker with data base (.txt)
+ * @author Владислав
+ * @version 1.0
  */
 public class FileWorkerForCompanies implements Filable<AirCraftCompany> {
     private File file = new File("src/main/resources/Companies.txt");
@@ -15,6 +17,10 @@ public class FileWorkerForCompanies implements Filable<AirCraftCompany> {
     public FileWorkerForCompanies() throws IOException {
     }
 
+    /**
+     * Method writes object(company) to file;
+     * @param airCraftCompany
+     */
     @Override
     public void add(AirCraftCompany airCraftCompany) {
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file,true))) {
@@ -24,6 +30,11 @@ public class FileWorkerForCompanies implements Filable<AirCraftCompany> {
             e.printStackTrace();
         }
     }
+
+    /***
+     * Method return strings of info about all companies
+     */
+
     public void showAllCompanies(){
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             ArrayList<String> arrayList = new ArrayList<>();
@@ -50,16 +61,22 @@ public class FileWorkerForCompanies implements Filable<AirCraftCompany> {
     public void update() {
 
     }
+
+    /**
+     * Method helps get company by id
+     * @param id - int
+     * @return object as company
+     */
     public AirCraftCompany getByID(int id){
  AirCraftCompany airCraftCompany = null;
- ArrayList<AirCraftCompany> listComp = null;
+ ArrayList<AirCraftCompany> listComp = new ArrayList<>();
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
            ArrayList<Integer> list= new ArrayList<>();
             String s;
            String[] ss;
            while ((s = bufferedReader.readLine()) != null){
                ss = s.split(" ");
-               String[] p = ss[2].split(", ");
+               String[] p = ss[2].split(",");
                for (String v : p){
                    list.add(Integer.valueOf(v));
                }

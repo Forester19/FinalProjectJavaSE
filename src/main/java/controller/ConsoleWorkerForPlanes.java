@@ -13,6 +13,10 @@ public class ConsoleWorkerForPlanes {
     FileWorkerForPlanes fileWorkerForPlanes = new FileWorkerForPlanes();
     private int selectId;
     Scanner scanner = new Scanner(System.in);
+
+    /**
+     * Method that looks on your choice and causes other methods.
+     */
     public void doEveryThingWithPlanes(){
         System.out.println("Enter what you want:\n" +
                 "1 - Add new plan\n"+

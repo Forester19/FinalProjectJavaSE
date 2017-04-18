@@ -1,13 +1,13 @@
 package controller;
 
 import service.MoreAboutCompanies;
-import view.ConsoleHelperForPlanes;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 /**
  * Created by Владислав on 14.04.2017.
+ * @version 1.0
  */
 public class ConsoleWorkerMain {
     private int select_ID;
@@ -17,6 +17,9 @@ public class ConsoleWorkerMain {
     ConsoleWorkerForType consoleWorkerForType = new ConsoleWorkerForType();
     ConsoleWorkerForPlanes consoleWorkerForPlanes = new ConsoleWorkerForPlanes();
     ConsoleWorkerForCompanies consoleWorkerForCompanies = new ConsoleWorkerForCompanies();
+    /**
+     * Method that looks on your choice and causes other methods.
+     */
     public ConsoleWorkerMain() throws IOException {
         doMain();
 
@@ -30,10 +33,13 @@ public class ConsoleWorkerMain {
             case 3:
                 consoleWorkerForCompanies.jobWithCompanies();
                 break;
-            case 4:
+            case 4:consoleWorkerForCompanies.moreInformAboutCompaniesGetSummaryCapacity();
                 break;
         }
     }
+    /**
+     * Method that looks on your choice and causes other methods.
+     */
 
     private void doMain() {
         System.out.println("Please select with what of parts application you want continue!!! \n " +
@@ -49,14 +55,7 @@ public class ConsoleWorkerMain {
 
 
     }
-    private void moreInformAboutCompanies(){
-        System.out.println("Select: \n 1 - Summary total capacity\n 2 - Getting plane by fuel interval");
-              id4 = scanner.nextInt();
-              switch (id4){
-                  case 1:
-                      System.out.println();
-              }
-    }
+
 
     public int getSelect_ID() {
         return select_ID;
